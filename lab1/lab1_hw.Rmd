@@ -1,6 +1,6 @@
 ---
 title: "Lab 1 Homework"
-author: "Please Add Your Name Here"
+author: "Spencer Bryan"
 date: "`r Sys.Date()`"
 output:
   html_document: 
@@ -17,6 +17,7 @@ Make sure to use the formatting conventions of RMarkdown to make your report nea
 
 **2. What is the difference between R and RStudio? What is GitHub and why is it useful to programmers?**  
 
+R is the coding language that is used for R Studio. Without R, R Studio does not function. GitHub is a cloud storage and progress tracker application allowing code to be stored in the cloud, downloaded and edited to a device with access to GitHub, and tracks changes and old version of the code. All of those reasons make GitHub useful to programmers.
 
 
 **3. Navigate to my [BIS15L](https://github.com/jmledford3115/BIS15LW2021_jledford) repository on GitHub. Notice that near the bottom there is a nice, clean description of the repository. You want this on your repository! It is built by making edits to the `README.md` file using the RMarkdown conventions. Edit your repository's `README.md` file so that you have a clean informative description, including your email address. Be creative! You don't need to just copy mine. There are lots of examples online.**  
