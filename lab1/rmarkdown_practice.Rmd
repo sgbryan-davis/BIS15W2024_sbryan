@@ -1,0 +1,36 @@
+---
+title: "R markdown practice"
+output: html_document
+date: "2024-01-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Title
+
+# Biggest Title
+## Bigger Title
+### Smaller Title 
+#### Smallest Title
+
+```{r}
+2+2+2*3
+```
+
+```{r}
+34*56/45
+```
+
+
+```{r}
+#install.packages("tidyverse")
+library("tidyverse")
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
+```
+
