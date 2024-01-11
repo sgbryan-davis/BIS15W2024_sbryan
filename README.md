@@ -1,2 +1,2 @@
-***** Spencer's Repository *****  
+--- Spencer's Repository ----
 contact: sgbryan@ucdavis.edu
