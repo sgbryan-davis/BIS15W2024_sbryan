@@ -36,7 +36,7 @@ days_of_the_week <- c("Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "S
 
 A convenient trick for creating a vector is to generate a sequence of numbers.
 ```{r}
-my_vector_sequence <- c(1:100)
+my_vector_sequence <- c(1:100) #creates integers!!!!
 my_vector_sequence
 ```
 
@@ -50,12 +50,24 @@ days_of_the_week[3]
 Work through these examples and make adjustments to the values to experiment.
 
 1. Evaluate all numerics in `my_vector_sequence` to determine which has a value of 15.  
+```{r}
+my_vector_sequence[15]. #pulls out based on POSITION, does not evaluate for position
+my_vector_sequence == 15 #searches for value equal to 15, logical evaluation of the data. Displays T/F
+```
+
 
 
 2. We can use operators such as <, >, ==, <==, etc. Show all values in `my_vector_sequence` that are less than 10.  How about less than or equal to 10?  
+```{r}
+my_vector_sequence[my_vector_sequence<10]
+my_vector_sequence[my_vector_sequence<=10]
+```
 
 
 3. If you use `[]` then you only get the values, not the logical evaluation of the entire vector. Experiment with this by adjusting the chunk below.    
+```{r}
+
+```
 
 
 ## Data Matrices
@@ -73,6 +85,8 @@ Deathly_Hallows_1 <- c(295.9, 664.3)
 Deathly_Hallows_2 <- c(381.0, 960.5)
 ```
 
+
+# vectors then combined vector then format into a matrix then name rows and columns then you can add columns and names to matrix
 Create a new object called `box_office`. Here we are using the `c` command to combine the vectors into one.
 ```{r}
 box_office <- c(Philosophers_Stone, Chamber_of_Secrets, Prisoner_of_Azkaban, Goblet_of_Fire, Order_of_the_Phoenix, Half_Blood_Prince, Deathly_Hallows_1, Deathly_Hallows_2)
@@ -81,7 +95,7 @@ box_office
 
 Create `harry_potter_matrix` using the `matrix()` command. We need to tell R how to organize the `box_office` vector using the `nrow` and `byrow` commands.
 ```{r}
-harry_potter_matrix <- matrix(box_office, nrow = 8, byrow = T)
+harry_potter_matrix <- matrix(box_office, nrow = 8, byrow = T) # data matrix is a bunch of stacked vectors. to access values, you use their coordinates
 harry_potter_matrix
 ```
 ## Name the rows and columns
@@ -126,7 +140,10 @@ all_harry_potter_matrix
 
 ## Practice
 1. What are the total earnings for the US and non-US regions?  
+csu==
+```{r}
 
+```
 
 2. Add this information to the data matrix. Hint: you are adding a row, not a column.  
 
