@@ -21,6 +21,7 @@ output:
 ## Load tidyverse
 ```{r message=FALSE, warning=FALSE}
 library("tidyverse")
+# data frames = spreadsheets, data frames store multiple types of data
 ```
 
 ## Data Frames
@@ -36,6 +37,7 @@ Weight <- c(2.9, 4.0, 3.1)
 Here we combine our three vectors to create a data frame with the function `data.frame()`.
 ```{r}
 hbirds <- data.frame(Sex, Length, Weight)
+#data frames give a lot more information in a clearer way
 hbirds
 ```
 
@@ -50,16 +52,21 @@ Notice that not only are the data neat and clean looking, there is also informat
 
 What are the column names of our data frame? Notice that R defaulted to using the names of our vectors, but we could name them something else when creating the data frame, or rename them later.
 ```{r}
-
+names(hbirds)
+# can open data frames in workspace
 ```
 
 What are the dimensions of the `hbirds` data frame? The `dim()` and `str()` commands provide this information.   
 ```{r}
-
+# dimensions of data frame, columns = variables, observations go in cell
+#all variables in lowercase and underscore *NOTHING ELSE*
+dim(hbirds)
+str(hbirds)
 ```
 
 ```{r}
-
+# rename variables " old_data <- " overwrites old data
+hbirds <- data.frame(sex=Sex, lenghth=Length, weight_g=Weight)
 ```
 
 Let's use lowercase names when we create the data frame. We just changed to lowercase here, but we could use any names we wish.  
@@ -86,7 +93,8 @@ hbirds[ ,3]
 
 We can also select values in an entire column using the `$` sign. This can be useful for calculations. Here we calculate the mean of all of the birds weights. 
 ```{r}
-
+hbirds$lenghth
+w <- hbirds$lenghth
 ```
 
 ## Adding Rows
@@ -112,6 +120,7 @@ hbirds
 We should save our hbirds data frame so we can use it again later! There are many ways to save data in R, here we write our data frame to a csv file. We use `row.names = FALSE` to avoid row numbers from printing out. 
 ```{r}
 write.csv(hbirds, "hbirds_data.csv", row.names = FALSE)
+# csv = Comma Seperated Value
 ```
 
 ## Practice
@@ -124,27 +133,32 @@ spring <- c("Buckeye", "Buckeye", "Buckeye", "Benton", "Benton", "Benton", "Trav
 
 1. Build a data frame called `hsprings` with the above data. Name the temperature column `temp_C`. Print out the data frame.  
 ```{r}
+hsprings <- data_frame(scientist=name, temp_c=temp, spring)
+
 
 ```
 
 2. Change the column titled `name` to `scientist`, leave the other column names the same. Print out the data frame names.  
 ```{r}
-
+hsprings
+names(hsprings)
 ```
 
 3. Our scientists forgot to record the depth data for each spring. Here it is as a vector, add it as a new column called depth_ft: `c(4.15, 4.13, 4.12, 3.21, 3.23, 3.20, 5.67, 5.65, 5.66)`. Print out the data frame.
 ```{r}
-
+depth_ft <- c(4.15, 4.13, 4.12, 3.21, 3.23, 3.20, 5.67, 5.65, 5.66)
+hsprings <- cbind(hsprings, depth_ft)
+hsprings
 ```
 
 4. Calculate the mean temperature of all of the temperature measurements.
 ```{r}
-
+mean(hsprings$temp_c)
 ```
 
 5. Save your hot springs data as a `.csv` file! Do not allow row names. 
 ```{r}
-
+write.csv(hsprings, "hsprings.csv", row.names=F)
 ```
 
 ## That's it! Let's take a break and then move on to part 2! 
