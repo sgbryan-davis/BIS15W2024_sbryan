@@ -2,6 +2,9 @@
 
 ### College of Biological Sciences:  
 ### Systems and Synthetic Biology    
- contact: sgbryan@ucdavis.edu   
 
- Joys in life: Legos, Rugby, Learning , NFL Redzone, and Chocolate Chip Cookies
+### Joys in life: Legos, Rugby, Learning , NFL Redzone, and Chocolate Chip Cookies
+ contact: sgbryan@ucdavis.edu   
+ 
+
+
