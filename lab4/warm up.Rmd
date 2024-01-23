@@ -1,0 +1,40 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-01-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+WARM UP
+# install and library penguins package
+```{r}
+library("tidyverse")
+library(palmerpenguins)
+penguins <- penguins
+# find dimensions of data set
+dim(penguins)
+```
+#find names of data columns (variables)
+```{r}
+names(penguins)
+glimpse(penguins)
+```
+
+# find number of penguins sampled on each island, gives ouputs of frequency of each catagorical variable
+```{r}
+table(penguins$island)
+# OR!!!
+summary(penguins$island)
+```
+
+
+```{r}
+mean(penguins$body_mass_g, na.rm=T)
+```
+
+
+
+
