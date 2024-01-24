@@ -1,0 +1,45 @@
+---
+title: "STA 100"
+output: html_document
+date: "2024-01-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+# LOGICAL OBJECTS
+```{r}
+x = c(1,2,3,4,5,6,7,8)
+x > 5 #gives logical output
+x[x>5]  # gives which values give true output for the condition
+x[c(6,7,8)]
+which(x>5) # gives whcih outputs greater than 5
+```
+# Example 2
+
+```{r}
+y <- c(2,3,4,5,9,9,10)
+which(y == 9) #gives which positions in vectors equal to value (==)
+y>4 & y<10 # gives logical output
+y[y>4 & y<10] # gives output of values that are true for the condition "AND"
+y<5. | y>9 #. "|" for "OR" funcitons 
+y[y<5 | y>9]
+
+
+```
+
+```{r}
+iris <- iris
+glimpse(iris)
+table(iris$Species)
+aggregate(Petal.Length ~ Species, data=iris, mean) # gives mean petal length by species, can do same for standard deviatino etc.
+aggregate(. ~Species, data=iris, mean)
+```
+
+```{r}
+iris$Species == "stetosa"
+setosa_data <- iris[iris$Species == "stetosa"] #subset data based on specific variable outcomes
+```
+
