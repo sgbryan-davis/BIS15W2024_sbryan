@@ -1,0 +1,32 @@
+---
+title: "warmup"
+output: html_document
+date: "2024-01-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("tidyverse")
+library(dplyr)
+library(janitor)
+```
+
+## R Markdown
+
+```{r}
+fish <- read_csv("data/Gaeta_etal_CLC_data.csv")
+```
+Transform to only include lake id and legth
+```{r}
+names(fish)
+fishlength <- select(fish, "lakeid", "length")
+```
+
+```{r}
+fishBO <- filter(fish, lakeid=="BO")
+```
+
+```{r}
+mean(fishBO$length)
+```
+

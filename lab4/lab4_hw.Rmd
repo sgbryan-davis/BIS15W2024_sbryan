@@ -91,26 +91,38 @@ table(homerange$trophic_guild)
 
 **7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.**  
 ```{r}
-
+carnivores <- filter(homerange, trophic_guild == "carnivore")
+herbivores <- filter(homerange, trophic_guild == "herbivore")
 ```
 
 **8. Do herbivores or carnivores have, on average, a larger `mean.hra.m2`? Remove any NAs from the data.**  
 ```{r}
-
+mean(carnivores$mean_hra_m2, na.rm=T)
 ```
 
 ```{r}
-
+mean(herbivores$mean_hra_m2, na.rm=T)
 ```
 
 **9. Make a new dataframe `owls` that is limited to the mean mass, log10 mass, family, genus, and species of owls in the database. Which is the smallest owl? What is its common name? Do a little bit of searching online to see what you can learn about this species and provide a link below** 
 ```{r}
+owls <- filter(homerange, order == "strigiformes") 
+owls_v2 <- select(owls, "mean_mass_g", "log10_mass", "family", "genus", "species")
+min(owls_v2$mean_mass_g)
+subset(owls_v2, mean_mass_g == 61.32)
 
+#LINK
+# https://en.wikipedia.org/wiki/Eurasian_pygmy_owl
 ```
 
 **10. As measured by the data, which bird species has the largest homerange? Show all of your work, please. Look this species up online and tell me about it!**.  
 ```{r}
+birds <- filter(homerange, taxon == "birds")
+max(birds$mean_hra_m2)
+subset(birds, mean_hra_m2 == 2.41e+08)
 
+# INFO
+# This bird is known as the "Northern crested caracara", and is known as an carnivous ground scavanger. It displays vulture-like feeding habits. It's main habitat comprises of Central and South America, and it is a low conservation concern.
 ```
 
 ## Push your final code to GitHub!
