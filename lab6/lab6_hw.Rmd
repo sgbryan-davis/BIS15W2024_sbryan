@@ -157,11 +157,7 @@ head(superhero_powers)
 ```{r}
 superhero_powers %>%
   filter(agility == T, stealth == T, super_strength == T, stamina == T) %>%
-<<<<<<< HEAD
   select(hero_names,agility, stealth, super_strength, stamina)
-=======
-  select(hero_name, agility, stealth, super_strength, stamina)
->>>>>>> dcea3ce2b7fff81b35b703b9e5db2e6d05ebcaae
 ```
 
 ## Your Favorite
