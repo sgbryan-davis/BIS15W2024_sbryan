@@ -51,7 +51,7 @@ Work through these examples and make adjustments to the values to experiment.
 
 1. Evaluate all numerics in `my_vector_sequence` to determine which has a value of 15.  
 ```{r}
-my_vector_sequence[15]. #pulls out based on POSITION, does not evaluate for position
+my_vector_sequence[15] #pulls out based on POSITION, does not evaluate for position
 my_vector_sequence == 15 #searches for value equal to 15, logical evaluation of the data. Displays T/F
 ```
 
@@ -140,7 +140,6 @@ all_harry_potter_matrix
 
 ## Practice
 1. What are the total earnings for the US and non-US regions?  
-csu==
 ```{r}
 
 ```
