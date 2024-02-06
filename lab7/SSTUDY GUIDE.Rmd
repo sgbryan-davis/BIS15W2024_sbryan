@@ -1,0 +1,71 @@
+---
+title: "THE condensed notes"
+output: 
+  html_document: 
+    keep_md: true
+date: "2024-02-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r}
+library(tidyverse)
+library(dplyr)
+library(janitor)
+```
+ 
+# LAB 1
+
+```{r}
+# nothin'
+```
+
+# LAB 2
+
+```{r}
+y <- c(154, 56) # creates a vector, can be stacked into matrices
+x <-  c(34, 46)
+z <- c(23445, 99343)
+mean(c(x ,y, z)) # take means of multimple vectors
+fake_matrix <- c(x, y ,z)
+faker_matrix <- matrix(fake_matrix, nrow=3, byrow = T) # byrow=T means the data is filled by columns, this gives the matrix structure
+schmoney <- c("bank1", "bank2")
+colnames(faker_matrix) <- schmoney
+peoples <- c("bob", "steven", "big stepper")
+rownames(faker_matrix) <- peoples
+faker_matrix
+xclass(x) #tells what kind of data it is
+# rbind(), cbind() etc. select [column, row]
+#to find row means, create a new object of that row/column, and then find mean
+x <- as.integer(x) #makes the data integer
+x <- as.numeric(x)
+```
+
+# LAB 3
+
+```{r}
+# renaming varaibles "data <- rename( "new_name" = "Old Name"), can also use "clean_names()"
+# save data "write.csv()"
+nrow()
+ncol()
+n_distinct()
+n()
+table() vs tabyl()
+filter(data, "filter wanted, ==, =<, =>, !=, between(column, lower, upper), near(column, tol= =/- range")
+# can fliter on multiple conditions using "&" and "|"
+select(data, columns, "contains(), starts_with(),  ")
+```
+# LAB 4 
+
+```{r}
+# pipes nes functions 
+arrange(desc()) v arrange()
+mutate(new_var=var*10)
+mutate(new_var = ifelse(var == xyz, "what to change to", var "#keeps it the same if not exactly what needs changing"))
+# always create new variable and use pipes
+
+```
+
