@@ -3,9 +3,9 @@ title: "Midterm 1 W24"
 author: "Spencer Bryan"
 date: "`r Sys.Date()`"
 output:
+  pdf_document: default
   html_document: 
     keep_md: yes
-  pdf_document: default
 ---
 
 ## Instructions
