@@ -1,6 +1,6 @@
 ---
 title: "Fun with NA's"
-date: "2024-02-08"
+date: "2024-02-12"
 output:
   html_document: 
     theme: spacelab
