@@ -2,10 +2,11 @@
 title: "Tidyr 2: `pivot_wider()`"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
   pdf_document:
     toc: yes
 ---
@@ -53,14 +54,15 @@ expenditures %>%
                values_to = "bn_dollars")
 ```
 
-2. Restrict the data to medical and health expenditures only. Sort in ascending order.
+2. Restrict the data to private education expenditures only. Sort in ascending order.
 ```{r}
-expenditures %>% 
+expenditures %>%
   pivot_longer(-expenditure,
-               names_to = "year",
-               values_to = "bn_dollars") %>% 
-  filter(expenditure=="Medical and Health") %>% 
-  arrange(-bn_dollars)
+               names_to = "years",
+               values_to = "bn_dollars") %>%
+  filter(expenditure == "Private Education") %>%
+  arrange(
+    bn_dollars)
 ```
 
 ## `separate()`
@@ -73,14 +75,16 @@ heartrate2
 We need to start by separating the patient names from their sexes. `separate()` needs to know which column you want to split, the names of the new columns, and what to look for in terms of breaks in the data.
 ```{r}
 heartrate2 %>% 
-  separate(patient, into= c("patient", "sex"), sep = "_")
+  separate(patient, into= c("patient", "sex"), # what break names into
+           sep = "_" # where to seperate
+           )
 ```
 
 ## Practice
 1. Re-examine `heartrate2`. Use `separate()` for the sexes, `pivot_longer()` to tidy, and `arrange()` to organize by patient and drug. Store this as a new object `heartrate3`.  
 ```{r}
 heartrate3 <- heartrate2 %>% 
-  separate(patient, into=c("patient", "sex"), sep="_") %>% 
+  separate(patient, into=c("patient", "sex"), sep="_") %>% #seperate first, then pivot longer
   pivot_longer(-c(patient, sex),
                names_to = "drug",
                values_to = "heartrate")
@@ -90,7 +94,7 @@ heartrate3
 2. `unite()` is the opposite of separate(). Its syntax is straightforward. You only need to give a new column name and then list the columns to combine with a separation character.  Give it a try below by recombining patient and sex from `heartrate3`.  
 ```{r}
 heartrate3 %>% 
-  unite(patient_sex, "patient", "sex", sep=" ")
+  unite(patient_sex, "patient", "sex", sep=" ") #opposite command of seperate()
 ```
 
 ## `pivot_wider()`
@@ -103,7 +107,7 @@ Rules:
 
 ```{r}
 tb_data <- read_csv("data/tb_data.csv")
-tb_data
+tb_data #this data is not represented by the correct variable under "value"
 ```
 
 When using `pivot_wider()` we use `names_from` to identify the variables (new column names) and `values_from` to identify the values associated with the new columns.
@@ -111,13 +115,14 @@ When using `pivot_wider()` we use `names_from` to identify the variables (new co
 tb_data %>% 
   pivot_wider(names_from = "key", #the observations under key will become new columns
               values_from = "value") #the values under value will be moved to the new columns
+# assocates "cases" with "population" automatically
 ```
 
 ## Practice
 1. Load the `gene_exp.csv` data as a new object `gene_exp`. Are these data tidy? Use `pivot_wider()` to tidy the data.
 ```{r}
 gene_exp <- read_csv("data/gene_exp.csv")
-gene_exp
+gene_exp # read and make an object then look at data 
 ```
 
 ```{r}
@@ -137,18 +142,18 @@ beachbugs
 
 2. Use `pivot_wider` to transform the data into wide format.
 ```{r}
-beachbugs_wide <- beachbugs %>% 
-  pivot_wider(names_from = site,
-              values_from = buglevels)
+beachbugs_wide <- beachbugs %>% #make objects
+  pivot_wider(names_from = site, #what names under a variable to separate and make new variables
+              values_from = buglevels) #which values are being separated
 beachbugs_wide
 ```
 
 3. Now, use `pivot_longer` to transform them back to long!
 ```{r}
 beachbugs_wide %>% 
-  pivot_longer(-year,
-               names_to = "site",
-               values_to = "buglevels")
+  pivot_longer(-year, # which column(s) to hold
+               names_to = "site", #which observations to move under variable and what it is called
+               values_to = "buglevels") #what the new variable values are moved to are called
 ```
 
 ## Wrap-up  
