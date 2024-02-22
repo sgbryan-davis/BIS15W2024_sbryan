@@ -170,7 +170,7 @@ elephants %>%
 ```{r}
 life_history %>% 
   ggplot(aes(x=gestation, y=log10(mass), size=mass))+ #allows for incorpration of a 3rd vairable , can nest "scale_y_log10"command into the aes() part of setup
-  geom_point(na.rm=T)
+  geom_boxplot()
 ```
 ## That's it! Let's take a break and then move on to part 2!  
 
