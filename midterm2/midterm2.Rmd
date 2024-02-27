@@ -1,0 +1,229 @@
+---
+title: "Midterm 2 W24"
+author: "Spencer Bryan"
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    keep_md: yes
+  pdf_document: default
+---
+
+## Instructions
+Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code and push your final work to your repository. Your code must be organized, clean, and run free from errors. Remember, you must remove the `#` for any included code chunks to run. Be sure to add your name to the author header above. 
+
+Your code must knit in order to be considered. If you are stuck and cannot answer a question, then comment out your code and knit the document. You may use your notes, labs, and homework to help you complete this exam. Do not use any other resources- including AI assistance.  
+
+Don't forget to answer any questions that are asked in the prompt. Some questions will require a plot, but others do not- make sure to read each question carefully.  
+
+For the questions that require a plot, make sure to have clearly labeled axes and a title. Keep your plots clean and professional-looking, but you are free to add color and other aesthetics.  
+
+Be sure to follow the directions and upload your exam on Gradescope.    
+
+## Background
+In the `data` folder, you will find data about shark incidents in California between 1950-2022. The [data](https://catalog.data.gov/dataset/shark-incident-database-california-56167) are from: State of California- Shark Incident Database.   
+
+## Load the libraries
+```{r message=FALSE, warning=FALSE}
+library("tidyverse")
+library("janitor")
+library("naniar")
+library(ggplot2)
+```
+
+## Load the data
+Run the following code chunk to import the data.
+```{r message=FALSE, warning=FALSE}
+ sharks <- read_csv("data/SharkIncidents_1950_2022_220302.csv") %>% clean_names()
+```
+
+## Questions
+1. (1 point) Start by doing some data exploration using your preferred function(s). What is the structure of the data? Where are the missing values and how are they represented?  
+
+```{r}
+head(sharks)
+```
+
+```{r}
+summary(sharks)
+```
+
+2. (1 point) Notice that there are some incidents identified as "NOT COUNTED". These should be removed from the data because they were either not sharks, unverified, or were provoked. It's OK to replace the `sharks` object.
+
+    I am removing unverified shark attack observations from the data I will be analyzing.
+```{r}
+sharks <- sharks %>%
+  filter(incident_num != "NOT COUNTED")
+```
+
+3. (3 points) Are there any "hotspots" for shark incidents in California? Make a plot that shows the total number of incidents per county. Which county has the highest number of incidents?
+
+    Numerical data in the form of a table
+```{r}
+sharks %>%
+  group_by(county) %>%
+  summarise(number_incidents = n_distinct(incident_num)) %>%
+  select(county, number_incidents) %>% 
+  arrange(-number_incidents)
+```
+    
+    The table shows that San Deigo, Santa Barbara, Humboldt, Marin, and Moneteray counties have the highest number of shark incidents.  
+    Graphical representaion of the table
+```{r}
+sharks %>%
+  group_by(county) %>%
+  summarise(number_incidents = n_distinct(incident_num)) %>%
+  top_n(5, number_incidents) %>%
+  ggplot(aes(x= county, y= number_incidents, fill = county)) + 
+  geom_col() + 
+  labs(title = "Shark Incidents by County", 
+       x= "County", 
+       y= "Number of Shark Incidents") +
+  theme(title = element_text(size= rel(1.5), hjust= 0.5))
+```
+    
+    
+4. (3 points) Are there months of the year when incidents are more likely to occur? Make a plot that shows the total number of incidents by month. Which month has the highest number of incidents?  
+    
+    Must have the month as a factor to be able to group using it.
+```{r}
+sharks$month <- as.factor(sharks$month)
+```
+
+```{r}
+sharks %>%
+  group_by(month) %>%
+  summarise(number_incidents = n_distinct(incident_num)) %>%
+  ggplot(aes(x= month, y= number_incidents, fill = month)) +
+  geom_col() +
+  labs(title = "Shark Incidents by Month",
+      x= "Month (1 <- Jan ... 12 <- Dec)",
+      y= "Number of Incidents")
+```
+
+    August-October are the most likely months to have a shark related incident, with October having the hightest number of incidences.
+
+5. (3 points) How do the number and types of injuries compare by county? Make a table (not a plot) that shows the number of injury types by county. Which county has the highest number of fatalities?  
+
+```{r}
+sharks %>%
+  group_by(county, injury) %>%
+  summarise(number_injury = n()) %>%
+  filter(injury == "fatal") %>%
+  top_n(10, number_injury) %>%
+  arrange(-number_injury)
+```
+
+6. (2 points) In the data, `mode` refers to a type of activity. Which activity is associated with the highest number of incidents?
+
+```{r}
+sharks %>%
+  group_by(mode) %>%
+  summarise(number_incidents = n_distinct(incident_num)) %>%
+  arrange(-number_incidents)
+```
+
+```{r}
+sharks %>%
+  group_by(mode) %>%
+  summarise(number_incidents = n_distinct(incident_num)) %>%
+  top_n(5, number_incidents) %>%
+  ggplot(aes(x= mode, y= number_incidents, fill = mode)) + 
+  geom_col() +
+  labs(title = "Activity during Shark Incident", 
+       x= "Activity",
+       y= "Number of Incidents")
+```
+
+7. (4 points) Use faceting to make a plot that compares the number and types of injuries by activity. (hint: the x axes should be the type of injury) 
+
+```{r}
+sharks %>%
+  ggplot(aes(injury, fill= injury)) +
+  geom_bar() +
+  facet_wrap(~mode) +
+  labs(title = "Types of Injuries by Activity",
+       x= "Injury Severity",
+       y= "Number of Incidents")
+```
+
+    Surfing has the highest number of incidents, but freediving has the highest proportion of major injuries per incident.
+
+8. (1 point) Which shark species is involved in the highest number of incidents?  
+
+```{r}
+sharks %>%
+  group_by(species) %>%
+  summarise(number_incidents = n_distinct(incident_num)) %>%
+  arrange(-number_incidents)
+```
+
+9. (3 points) Are all incidents involving Great White's fatal? Make a plot that shows the number and types of injuries for Great White's only.  
+
+```{r}
+sharks %>%
+  filter(species == "White") %>%
+  ggplot(aes(injury, fill= injury)) + 
+  geom_bar() +
+  labs(title = "Injuries Involving Great White Sharks", 
+       x= "Injury Severity", 
+       y= "Number of Incidents") 
+```
+
+## Background
+Let's learn a little bit more about Great White sharks by looking at a small dataset that tracked 20 Great White's in the Fallaron Islands. The [data](https://link.springer.com/article/10.1007/s00227-007-0739-4) are from: Weng et al. (2007) Migration and habitat of white sharks (_Carcharodon carcharias_) in the eastern Pacific Ocean.
+
+## Load the data
+```{r message=FALSE, warning=FALSE}
+white_sharks <- read_csv("data/White sharks tracked from Southeast Farallon Island, CA, USA, 1999 2004.csv", na = c("?", "n/a")) %>% clean_names()
+```
+
+10. (1 point) Start by doing some data exploration using your preferred function(s). What is the structure of the data? Where are the missing values and how are they represented?
+
+```{r}
+head(white_sharks)
+glimpse(white_sharks)
+summary(white_sharks)
+```
+
+11. (3 points) How do male and female sharks compare in terms of total length? Are males or females larger on average? Do a quick search online to verify your findings. (hint: this is a table, not a plot).  
+
+```{r}
+white_sharks %>%
+  group_by(sex) %>%
+  filter(sex != "NA") %>%
+  summarise(mean_length = mean(total_length_cm))
+```
+    
+    Females in this sample are longer by approx. 0.5 meters. This finding is verified by a google search.
+    
+12. (3 points) Make a plot that compares the range of total length by sex.
+
+```{r}
+white_sharks %>%
+  filter(sex != "NA") %>%
+  ggplot(aes(x= sex, y=total_length_cm, fill= sex)) +
+  geom_boxplot() +
+  labs(title = "Total Length Measurement Dist. by Sex",
+       x= "Sex",
+       y= "Length Measurement (cm)")
+```
+
+
+13. (2 points) Using the `sharks` or the `white_sharks` data, what is one question that you are interested in exploring? Write the question and answer it using a plot or table.  
+
+    I am going to answert the question: Which beach has the most recorded shark incidents
+```{r}
+sharks %>% 
+  group_by(location) %>%
+  summarise(number_incidents = n_distinct(incident_num)) %>%
+  top_n(10, number_incidents) %>%
+  arrange(-number_incidents) %>%
+  ggplot(aes(x= location, y= number_incidents, fill= location)) + 
+  geom_col() +
+  coord_flip() +
+  labs(title = "Shark Incidents by Location",
+       x= "Location",
+       y= "Number Incidents")
+```
+
+    Salmon Creek Beach is the location with the most incidents on this list.
