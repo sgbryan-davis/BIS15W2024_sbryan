@@ -73,7 +73,7 @@ sharks %>%
   group_by(county) %>%
   summarise(number_incidents = n_distinct(incident_num)) %>%
   top_n(5, number_incidents) %>%
-  ggplot(aes(x= county, y= number_incidents, fill = county)) + 
+  ggplot(aes(x= reorder(county, number_incidents), y= number_incidents, fill = county)) + 
   geom_col() + 
   labs(title = "Shark Incidents by County", 
        x= "County", 
