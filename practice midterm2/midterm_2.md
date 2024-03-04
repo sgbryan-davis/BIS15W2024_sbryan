@@ -379,11 +379,17 @@ surgery %>%
   mutate(danger_level = (mort30_num + complication_num)/2) %>% 
   summarise(mean_danger_level = mean(danger_level)) %>%
   ggplot(aes(x=as.factor(month), y=mean_danger_level, fill = month))+
+  scale_x_discrete(limits = month.abb) +
   geom_col() +
   scale_x_discrete(limits = month.abb) +
   labs(title = "Risk of mortality or Complications", 
        x= "Month",
        y= "Probability of Complication or Mortatlity")
+```
+
+```
+## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.
 ```
 
 ![](midterm_2_files/figure-html/unnamed-chunk-14-1.png)<!-- -->

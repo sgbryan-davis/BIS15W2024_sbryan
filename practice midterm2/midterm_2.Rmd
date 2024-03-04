@@ -163,6 +163,7 @@ surgery %>%
   mutate(danger_level = (mort30_num + complication_num)/2) %>% 
   summarise(mean_danger_level = mean(danger_level)) %>%
   ggplot(aes(x=as.factor(month), y=mean_danger_level, fill = month))+
+  scale_x_discrete(limits = month.abb) +
   geom_col() +
   scale_x_discrete(limits = month.abb) +
   labs(title = "Risk of mortality or Complications", 
