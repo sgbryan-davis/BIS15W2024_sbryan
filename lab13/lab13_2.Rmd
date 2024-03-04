@@ -74,7 +74,7 @@ bbox <- make_bbox(long, lat, f = 0.03) #f is the fraction of the bounding box to
 
 Let's get a base map for our bounding box area. There are several different map [styles](https://docs.stadiamaps.com/themes/)
 ```{r}
-map1 <- get_stadiamap(bbox, maptype = "stamen_terrain", zoom=7) 
+map <- get_stadiamap(bbox, maptype = "stamen_terrain", zoom=7) 
 ```
 
 Have a look at the map.  
