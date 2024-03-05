@@ -56,7 +56,7 @@ bbox_bears <- make_bbox(long_bears, lat_bears, f=0.03)
 3. Load a map from `stamen` in a terrain style projection and display the map.
 ```{r}
 register_stadiamaps("b2890a49-f2e5-4362-a3e7-95375498640e", write= TRUE)
-# map_bear <- get_stadiamap(bbox_bears, maptype = "stamen_terrain", zoom = 6)
+# map_bear <- get_stadiamap(bbox_bears, maptype = "stamen_terrain", zoom = 6) 
 # map_bear <- ggmap(map_bear)
 ```
 
