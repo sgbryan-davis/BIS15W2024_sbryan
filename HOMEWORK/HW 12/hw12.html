@@ -11,7 +11,7 @@
 
 <meta name="author" content="Please Add Your Name Here" />
 
-<meta name="date" content="2024-03-03" />
+<meta name="date" content="2024-03-05" />
 
 <title>Homework 12</title>
 
@@ -376,7 +376,7 @@ display: none;
 
 <h1 class="title toc-ignore">Homework 12</h1>
 <h4 class="author">Please Add Your Name Here</h4>
-<h4 class="date">2024-03-03</h4>
+<h4 class="date">2024-03-05</h4>
 
 </div>
 
@@ -398,44 +398,151 @@ report neat and clean!</p>
 <h2>Load the libraries</h2>
 <pre class="r"><code>library(tidyverse)
 library(janitor)
-library(ggmap)</code></pre>
+library(ggmap)
+library(ggplot2)</code></pre>
 </div>
 <div id="load-the-data" class="section level2">
 <h2>Load the Data</h2>
 <p>We will use two separate data sets for this homework.</p>
 <ol style="list-style-type: decimal">
-<li><p>The first <a href="https://rcweb.dartmouth.edu/~f002d69/workshops/index_rspatial.html">data
+<li>The first <a href="https://rcweb.dartmouth.edu/~f002d69/workshops/index_rspatial.html">data
 set</a> represent sightings of grizzly bears (Ursos arctos) in
-Alaska.</p></li>
-<li><p>The second data set is from Brandell, Ellen E (2021), Serological
-dataset and R code for: Patterns and processes of pathogen exposure in
-gray wolves across North America, Dryad, <a href="https://doi.org/10.5061/dryad.5hqbzkh51">Dataset</a>.</p></li>
-<li><p>Load the <code>grizzly</code> data and evaluate its
-structure.</p></li>
-<li><p>Use the range of the latitude and longitude to build an
-appropriate bounding box for your map.</p></li>
-<li><p>Load a map from <code>stamen</code> in a terrain style projection
-and display the map.</p></li>
-<li><p>Build a final map that overlays the recorded observations of
-grizzly bears in Alaska.</p></li>
+Alaska.</li>
 </ol>
+<pre class="r"><code>bears &lt;- read_csv(&quot;bear-sightings.csv&quot;) %&gt;% clean_names()</code></pre>
+<pre><code>## Rows: 494 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (3): bear.id, longitude, latitude
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>The second data set is from Brandell, Ellen E (2021), Serological
+dataset and R code for: Patterns and processes of pathogen exposure in
+gray wolves across North America, Dryad, <a href="https://doi.org/10.5061/dryad.5hqbzkh51">Dataset</a>.</li>
+</ol>
+<pre class="r"><code>wolves &lt;- read_csv(&quot;wolves_data/wolves_dataset.csv&quot;) %&gt;% clean_names()</code></pre>
+<pre><code>## Rows: 1986 Columns: 23
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (4): pop, age.cat, sex, color
+## dbl (19): year, lat, long, habitat, human, pop.density, pack.size, standard....
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<ol style="list-style-type: decimal">
+<li>Load the <code>grizzly</code> data and evaluate its structure.</li>
+</ol>
+<pre class="r"><code>glimpse(bears)</code></pre>
+<pre><code>## Rows: 494
+## Columns: 3
+## $ bear_id   &lt;dbl&gt; 7, 57, 69, 75, 104, 108, 115, 116, 125, 135, 137, 162, 185, …
+## $ longitude &lt;dbl&gt; -148.9560, -152.6228, -144.9374, -152.8485, -143.2948, -149.…
+## $ latitude  &lt;dbl&gt; 62.65822, 58.35064, 62.38227, 59.90122, 61.07311, 62.91605, …</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Use the range of the latitude and longitude to build an
+appropriate bounding box for your map.</p>
+<p>Build the appropraite dimensions</p></li>
+</ol>
+<pre class="r"><code>lat_bears &lt;- c(54.9, 70.4)
+long_bears &lt;- c(-131, -166.3)
+bbox_bears &lt;- make_bbox(long_bears, lat_bears, f=0.03)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Load a map from <code>stamen</code> in a terrain style projection
+and display the map.</li>
+</ol>
+<pre class="r"><code>register_stadiamaps(&quot;b2890a49-f2e5-4362-a3e7-95375498640e&quot;, write= TRUE)</code></pre>
+<pre><code>## ℹ Replacing old key (b2890a49) with new key in /Users/staff/.Renviron</code></pre>
+<pre class="r"><code># map_bear &lt;- get_stadiamap(bbox_bears, maptype = &quot;stamen_terrain&quot;, zoom = 6)
+# map_bear &lt;- ggmap(map_bear)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Build a final map that overlays the recorded observations of grizzly
+bears in Alaska.</li>
+</ol>
+<pre class="r"><code># map_bear + 
+#  geom_point(data = bears, aes(x = long, y = lat), color = &quot;red&quot;, size = 0.5) +
+#  labs(title = &quot;Grizzly Bear Sightings in Alaska&quot;,
+#       x= &quot;Longitude&quot;,
+#       y= &quot;Latitude&quot;) </code></pre>
 <p>Let’s switch to the wolves data. Brandell, Ellen E (2021),
 Serological dataset and R code for: Patterns and processes of pathogen
 exposure in gray wolves across North America, Dryad, <a href="https://doi.org/10.5061/dryad.5hqbzkh51">Dataset</a>.</p>
 <ol start="5" style="list-style-type: decimal">
-<li><p>Load the data and evaluate its structure.</p></li>
-<li><p>How many distinct wolf populations are included in this study?
-Mae a new object that restricts the data to the wolf populations in the
-lower 48 US states.</p></li>
-<li><p>Use the range of the latitude and longitude to build an
-appropriate bounding box for your map.</p></li>
-<li><p>Load a map from <code>stamen</code> in a
-<code>terrain-lines</code> projection and display the map.</p></li>
-<li><p>Build a final map that overlays the recorded observations of
-wolves in the lower 48 states.</p></li>
-<li><p>Use the map from #9 above, but add some aesthetics. Try to
-<code>fill</code> and <code>color</code> by population.</p></li>
+<li>Load the data and evaluate its structure.</li>
 </ol>
+<pre class="r"><code>glimpse(wolves)</code></pre>
+<pre><code>## Rows: 1,986
+## Columns: 23
+## $ pop                &lt;chr&gt; &quot;AK.PEN&quot;, &quot;AK.PEN&quot;, &quot;AK.PEN&quot;, &quot;AK.PEN&quot;, &quot;AK.PEN&quot;, &quot;…
+## $ year               &lt;dbl&gt; 2006, 2006, 2006, 2006, 2006, 2006, 2006, 2006, 200…
+## $ age_cat            &lt;chr&gt; &quot;S&quot;, &quot;S&quot;, &quot;A&quot;, &quot;S&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;P&quot;, &quot;S&quot;, &quot;P&quot;, &quot;…
+## $ sex                &lt;chr&gt; &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;…
+## $ color              &lt;chr&gt; &quot;G&quot;, &quot;G&quot;, &quot;G&quot;, &quot;B&quot;, &quot;B&quot;, &quot;G&quot;, &quot;G&quot;, &quot;G&quot;, &quot;G&quot;, &quot;G&quot;, &quot;…
+## $ lat                &lt;dbl&gt; 57.03983, 57.03983, 57.03983, 57.03983, 57.03983, 5…
+## $ long               &lt;dbl&gt; -157.8427, -157.8427, -157.8427, -157.8427, -157.84…
+## $ habitat            &lt;dbl&gt; 254.08, 254.08, 254.08, 254.08, 254.08, 254.08, 254…
+## $ human              &lt;dbl&gt; 10.42, 10.42, 10.42, 10.42, 10.42, 10.42, 10.42, 10…
+## $ pop_density        &lt;dbl&gt; 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, …
+## $ pack_size          &lt;dbl&gt; 8.78, 8.78, 8.78, 8.78, 8.78, 8.78, 8.78, 8.78, 8.7…
+## $ standard_habitat   &lt;dbl&gt; -1.6339, -1.6339, -1.6339, -1.6339, -1.6339, -1.633…
+## $ standard_human     &lt;dbl&gt; -0.9784, -0.9784, -0.9784, -0.9784, -0.9784, -0.978…
+## $ standard_pop       &lt;dbl&gt; -0.6827, -0.6827, -0.6827, -0.6827, -0.6827, -0.682…
+## $ standard_packsize  &lt;dbl&gt; 1.3157, 1.3157, 1.3157, 1.3157, 1.3157, 1.3157, 1.3…
+## $ standard_latitude  &lt;dbl&gt; 0.7214, 0.7214, 0.7214, 0.7214, 0.7214, 0.7214, 0.7…
+## $ standard_longitude &lt;dbl&gt; -2.1441, -2.1441, -2.1441, -2.1441, -2.1441, -2.144…
+## $ cav_binary         &lt;dbl&gt; 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ cdv_binary         &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ cpv_binary         &lt;dbl&gt; 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, …
+## $ chv_binary         &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, …
+## $ neo_binary         &lt;dbl&gt; NA, NA, NA, 0, 0, NA, NA, 1, 0, 1, NA, 0, NA, NA, N…
+## $ toxo_binary        &lt;dbl&gt; NA, NA, NA, 1, 0, NA, NA, 1, 0, 0, NA, 0, NA, NA, N…</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li><p>How many distinct wolf populations are included in this study?
+Make a new object that restricts the data to the wolf populations in the
+lower 48 US states.</p>
+<p>Distinct wolf populations</p></li>
+</ol>
+<pre class="r"><code>wolves %&gt;%
+  unite(pop_year, pop, year, sep = &quot;_&quot;) %&gt;%
+  summarise(number_wolf_pop = n_distinct(pop_year))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   number_wolf_pop
+##             &lt;int&gt;
+## 1             163</code></pre>
+<pre><code>Wolf populations in the lower 48</code></pre>
+<pre class="r"><code>wolves_lower48 &lt;- wolves %&gt;%
+  filter(pop %in% c(&quot;MT&quot;, &quot;YNP&quot;, &quot;GTNP&quot;, &quot;SNF&quot;, &quot;MI&quot;))</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Use the range of the latitude and longitude to build an appropriate
+bounding box for your map.</li>
+</ol>
+<pre class="r"><code>lat_wolves &lt;- c(43.81, 47.75)
+long_wolves &lt;- c(-86.80, 110.00)
+bbox_wolves &lt;- make_bbox(long_wolves, lat_wolves, f=0.03)</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>Load a map from <code>stamen</code> in a <code>terrain-lines</code>
+projection and display the map.</li>
+</ol>
+<pre class="r"><code># map_wolves &lt;- get_stadiamap(bbox_wolves, maptype = &quot;stamen_terrain&quot;, zoom = 6)</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Build a final map that overlays the recorded observations of wolves
+in the lower 48 states.</li>
+</ol>
+<pre class="r"><code># map_wolves %&gt;%
+#  ggplot(data= wolves_lower48, aes(x = long, y = lat), size = 0.6) +
+#  labs(title = &quot;Wolf Sightings in the Lower 48 States&quot;,
+#       x = &quot;Longitude&quot;,
+#       y = &quot;Latitude&quot;) </code></pre>
+<ol start="10" style="list-style-type: decimal">
+<li>Use the map from #9 above, but add some aesthetics. Try to
+<code>fill</code> and <code>color</code> by population.</li>
+</ol>
+<pre class="r"><code># map_wolves %&gt;%
+#  ggplot(data= wolves_lower48, aes(x = long, y = lat), size = 0.6, color = &quot;year&quot;) +
+#  labs(title = &quot;Wolf Sightings in the Lower 48 States&quot;,
+#       x = &quot;Longitude&quot;,
+#       y = &quot;Latitude&quot;) </code></pre>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">
 <h2>Push your final code to GitHub!</h2>
